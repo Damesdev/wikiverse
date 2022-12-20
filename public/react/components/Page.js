@@ -1,9 +1,13 @@
 import React from 'react';
 
-export const Page = (props) => {
+export const Page = ({page, setSelectedPage, selectedPage}) => {
+
+  const handlePageClick = (chosenPage) => {
+		setSelectedPage(chosenPage);
+	};
 
   return <>
-    <h3>{props.page.title}</h3>
+    <p onClick={() => {handlePageClick(page)}}>{page.title}</p>
   </>
-} 
+};
 	
