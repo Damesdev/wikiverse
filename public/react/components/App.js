@@ -9,6 +9,8 @@ export const App = () => {
 	// Creating states for pages and selected Page
 	const [pages, setPages] = useState([]);
 	const [selectedPage, setSelectedPage] = useState({})
+	const [selectedPageState, setSelectedPageState] = useState(false)
+	const [isCreateNewPage, setIsCreateNewPage] = useState(false)
 
 	// Fetching Pages function
 	async function fetchPages(){
@@ -22,6 +24,12 @@ export const App = () => {
 		}
 	}
 
+	// Handle Add Page Click
+	function addPageClick(){
+		setIsCreateNewPage(true)
+		console.log(isCreateNewPage)
+	}
+
 	// Fetching Pages at beginning of page load
 	useEffect(() => {
 		fetchPages();
@@ -29,11 +37,32 @@ export const App = () => {
 
 
 	// Returning 
+	{/* Ternary operator if create new page is true show form if false show the pages list >
+			
+			if selected page is true display selected page with expanded information : show pages list*/}
 	return (
 		<main>	
       		<h1>WikiVerse</h1>
 			<h2>An interesting 📚</h2>
-			<PagesList pages={pages} selectedPage = {selectedPage} setSelectedPage={setSelectedPage} />
+			{/* Creating ternary operator for new page */}
+			{!isCreateNewPage ? 
+				<div> 
+					<button onClick={()=>{addPageClick()}}>Add Page</button> 
+					<PagesList pages={pages} selectedPage = {selectedPage} setSelectedPage={setSelectedPage}/> 
+				</div>
+				: 
+				<form>
+					<label>Article Information</label> <br></br>
+						<input type="text" placeholder='Article Title'/> <br></br>
+						<input type="text" placeholder='Article Content'/> <br></br>
+						<input type="text" placeholder='Tags'/> <br></br>
+					<label>Author Information</label><br></br>
+						<input type="text" placeholder='Author Name'/><br></br>
+						<input type="text" placeholder='Author Email'/><br></br>
+					<button>Submit</button>
+					<button onClick={()=>{setIsCreateNewPage(false)}}>Exit</button>
+				</form>
+			}	
 		</main>
 	)
 }
